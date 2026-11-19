@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #fdfbf7;
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #d97706;
+    outline-offset: 3px;
+  }
+}
+
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.signature {
+  font-family: 'Caveat', cursive;
+}
+
+/* ── Hero glow ──────────────────────────────────────────────── */
+.hero-glow {
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 200, 100, 0.55),
+      transparent 52%
+    ),
+    radial-gradient(
+      circle at 65% 38%,
+      rgba(255, 120, 60, 0.3),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 32% 60%,
+      rgba(245, 223, 218, 0.5),
+      transparent 40%
+    );
+  filter: blur(4px);
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 1;    transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* ── Ferryman / boat scene ──────────────────────────────────── */
+.ferryman-scene {
+  perspective: 1000px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 100%
+  );
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
+}
+
+.ferryman-scene svg {
+  filter: saturate(1.1) contrast(1.03) brightness(1.02);
+  transform: rotateX(1.5deg) scale(1.015);
+  transform-origin: center bottom;
+}
+
+.river-vignette {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 65%,
+      rgba(90, 30, 10, 0.12) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(253, 251, 247, 0.22),
+      transparent 20%,
+      transparent 80%,
+      rgba(253, 251, 247, 0.22)
+    );
+}
+
+/* ── Water animations ───────────────────────────────────────── */
+.water-lines {
+  animation: water-drift 10s ease-in-out infinite;
+}
+
+.foreground-reeds {
+  animation: reed-sway 5.5s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* ── Typing cursor ──────────────────────────────────────────── */
+.typing-cursor {
+  animation: blink 0.8s steps(1) infinite;
+  color: #d97706;
+}
+
+/* ── Envelope button glow ───────────────────────────────────── */
+.envelope-button {
+  animation: soft-glow 2.6s ease-in-out infinite;
+}
+
+/* ── Section kicker ─────────────────────────────────────────── */
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #b45309;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.23em;
+  text-transform: uppercase;
+}
+
+.section-kicker::before {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* ── Flip card ──────────────────────────────────────────────── */
+.flip-card {
+  perspective: 1100px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.75s cubic-bezier(0.2, 0.75, 0.25, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner,
+.flip-card:focus .flip-card-inner,
+.flip-card:focus-within .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow:
+    0 20px 50px rgba(30, 41, 59, 0.1),
+    0 4px 12px rgba(30, 41, 59, 0.05);
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* ── Paper texture ──────────────────────────────────────────── */
+.paper {
+  background-color: #fffdf8;
+  background-image:
+    linear-gradient(rgba(217, 119, 6, 0.03) 1px, transparent 1px),
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(232, 225, 240, 0.28),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(245, 223, 218, 0.35),
+      transparent 32%
+    );
+  background-size:
+    100% 30px,
+    100% 100%,
+    100% 100%;
+}
+
+/* ── Polaroid photo ─────────────────────────────────────────── */
+.polaroid {
+  transform-origin: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.polaroid:hover {
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Petal floating animation ───────────────────────────────── */
+@keyframes petal-float {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+/* ── Shimmer for special elements ───────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #d97706 0%,
+    #f59e0b 25%,
+    #ef4444 50%,
+    #f59e0b 75%,
+    #d97706 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Lantern glow ───────────────────────────────────────────── */
+@keyframes lantern-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 180, 0, 0.6)); }
+  50%       { filter: drop-shadow(0 0 16px rgba(255, 100, 0, 0.9)); }
+}
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes soft-glow {
+  0%, 100% {
+    box-shadow:
+      0 14px 35px rgba(217, 119, 6, 0.3),
+      0 0 0 0 rgba(217, 119, 6, 0);
+  }
+  50% {
+    box-shadow:
+      0 14px 35px rgba(217, 119, 6, 0.4),
+      0 0 0 10px rgba(217, 119, 6, 0.1);
+  }
+}
+
+@keyframes water-drift {
+  0%, 100% { transform: translateX(-18px); }
+  50%       { transform: translateX(18px); }
+}
+
+@keyframes reed-sway {
+  0%, 100% { transform: skewX(-1deg); }
+  50%       { transform: skewX(2deg); }
+}
+
+@keyframes float-up {
+  0%   { transform: translateY(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-120px) scale(0.6); opacity: 0; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .ferryman-scene {
+    height: clamp(240px, 32svh, 290px);
+  }
+
+  .ferryman-scene svg {
+    width: 100%;
+    max-width: none;
+    left: 0;
+    transform: rotateX(1.5deg) scale(0.94);
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
