@@ -45,8 +45,7 @@ const vocabulary = [
     word: 'Radiant',
     phonetic: '/ˈreɪ.di.ənt/',
     vi: 'Rạng rỡ',
-    memory:
-      'Cô bước vào lớp với nụ cười, và cả buổi học bỗng nhẹ nhàng hẳn đi.',
+    memory: 'Cô bước vào lớp với nụ cười, và cả buổi học bỗng nhẹ nhàng đi.',
     color: '#FFFBEB',
     accent: '#D97706',
   },
@@ -745,7 +744,7 @@ function FloralCardBackground() {
       */}
 
         {/* Top-Right Forget-Me-Not Flowers & Branch */}
-        <g id="topRightFlowers" opacity="0.88" transform="translate(480, 20)">
+        <g id="topRightFlowers" opacity="1" transform="translate(480, 20)">
           {/* Stem & Leaves */}
           <path
             d="M70,20 Q40,60 10,110 Q-10,150 0,190"
@@ -831,7 +830,7 @@ function FloralCardBackground() {
         </g>
 
         {/* Right-Edge Forget-Me-Not Cascade (matches image) */}
-        <g id="rightCascade" opacity="0.9" transform="translate(560, 240)">
+        <g id="rightCascade" opacity="1" transform="translate(560, 240)">
           <path
             d="M40,0 Q-10,80 15,160 Q35,220 5,300"
             fill="none"
@@ -915,7 +914,7 @@ function FloralCardBackground() {
         {/* ── BOTANICAL FLOWERS ON BOTTOM (Golden Yellow Watercolor Poppies & Anemones) ── */}
 
         {/* Big Yellow Flower 1 - Left Edge (like in image) */}
-        <g id="bigYellowLeft" opacity="0.92" transform="translate(30, 480)">
+        <g id="bigYellowLeft" opacity="1" transform="translate(30, 480)">
           {/* Leaves */}
           <path
             d="M-10,30 Q40,-20 80,0 Q60,40 -10,30 Z"
@@ -1021,7 +1020,7 @@ function FloralCardBackground() {
         </g>
 
         {/* Small Yellow Flower - Mid-Left */}
-        <g id="midYellow" opacity="0.88" transform="translate(130, 640)">
+        <g id="midYellow" opacity="1" transform="translate(130, 640)">
           <path
             d="M-10,10 Q20,-20 40,-5 Q25,20 -10,10 Z"
             fill="url(#leafSage)"
@@ -1071,11 +1070,7 @@ function FloralCardBackground() {
         </g>
 
         {/* Huge Bottom-Center Yellow Flower (main centerpiece in reference image) */}
-        <g
-          id="giantBottomFlower"
-          opacity="0.94"
-          transform="translate(320, 780)"
-        >
+        <g id="giantBottomFlower" opacity="1" transform="translate(320, 780)">
           {/* Leaves surrounding */}
           <path
             d="M-140,-50 Q-80,-120 -30,-80 Q-70,-20 -140,-50 Z"
@@ -1187,11 +1182,7 @@ function FloralCardBackground() {
         </g>
 
         {/* Bottom Left White-Cream Camellia Flower (like in reference image) */}
-        <g
-          id="bottomWhiteFlower"
-          opacity="0.95"
-          transform="translate(100, 810)"
-        >
+        <g id="bottomWhiteFlower" opacity="1" transform="translate(100, 810)">
           <ellipse
             cx="-45"
             cy="-45"
@@ -1248,7 +1239,7 @@ function FloralCardBackground() {
         {/* Clustered Blue Forget-Me-Nots at Bottom Right Corner */}
         <g
           id="bottomRightBlueCluster"
-          opacity="0.96"
+          opacity="1"
           transform="translate(470, 780)"
         >
           <path
@@ -1346,8 +1337,17 @@ function FloralCardBackground() {
 }
 
 // ── Letter modal ───────────────────────────────────────────────────────────
+const letterParagraphs = [
+  'Cảm ơn cô vì đã dạy chúng em nhiều hơn cả kiến thức. Trong lớp học của cô, mỗi từ mới là một cánh cửa mở ra thế giới, mỗi lỗi sai là một bài học quý giá, và mỗi bạn học sinh đều cảm thấy vui vẻ.',
+  'Sự kiên nhẫn, vui vẻ và niềm tin của cô vào chúng em đã giúp chúng em trưởng thành từng ngày. Mai này, dù có quên một số quy tắc ngữ pháp, chúng em vẫn luôn nhớ cô.',
+  '🌸 Chúc mừng ngày Nhà Giáo Việt Nam 20/11. Chúc cô luôn mạnh khoẻ, hạnh phúc và mãi rạng rỡ như ánh mặt trời !',
+];
+
 function LetterModal({ onClose }: { onClose: () => void }) {
-  const [language, setLanguage] = useState<'en' | 'vi'>('vi');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [paraIndex, setParaIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
@@ -1358,6 +1358,40 @@ function LetterModal({ onClose }: { onClose: () => void }) {
       document.body.style.overflow = '';
     };
   }, [onClose]);
+
+  // Hiệu ứng chữ chạy nhanh và mượt mà (typewriter)
+  useEffect(() => {
+    if (isCompleted) return;
+
+    if (paraIndex >= letterParagraphs.length) {
+      setIsCompleted(true);
+      return;
+    }
+
+    const currentText = letterParagraphs[paraIndex];
+    if (charIndex < currentText.length) {
+      const timer = setTimeout(() => {
+        setCharIndex((prev) => Math.min(prev + 2, currentText.length));
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop =
+            scrollContainerRef.current.scrollHeight;
+        }
+      }, 10);
+      return () => clearTimeout(timer);
+    } else {
+      // Nghỉ nhẹ 80ms giữa các đoạn
+      const pauseTimer = setTimeout(() => {
+        setParaIndex((prev) => prev + 1);
+        setCharIndex(0);
+      }, 80);
+      return () => clearTimeout(pauseTimer);
+    }
+  }, [paraIndex, charIndex, isCompleted]);
+
+  const handleShowAll = () => {
+    setIsCompleted(true);
+    setParaIndex(letterParagraphs.length);
+  };
 
   return (
     <motion.div
@@ -1390,7 +1424,10 @@ function LetterModal({ onClose }: { onClose: () => void }) {
         </button>
 
         {/* Scrollable Greeting Card Content Area */}
-        <div className="relative z-10 overflow-y-auto px-5 py-6 sm:px-10 sm:py-9">
+        <div
+          ref={scrollContainerRef}
+          className="relative z-10 overflow-y-auto px-5 py-6 sm:px-10 sm:py-9"
+        >
           {/* Top Title inspired directly by reference image */}
           <div className="text-center select-none pt-1 pb-4 border-b border-[#E8DFD2]/80">
             <p className="font-display text-base sm:text-lg italic tracking-widest text-slate-700">
@@ -1408,65 +1445,92 @@ function LetterModal({ onClose }: { onClose: () => void }) {
             </div>
           </div>
 
-          {/* Subheader with Language switcher */}
+          {/* Subheader */}
           <div className="my-5 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
               <Flower2 size={15} /> 🌸 Thiệp gửi cô
             </div>
+            {!isCompleted && (
+              <button
+                onClick={handleShowAll}
+                className="text-[11px] font-medium text-amber-700/70 hover:text-amber-900 underline transition cursor-pointer"
+              >
+                Hiện hết
+              </button>
+            )}
           </div>
 
           {/* Letter Body - Clean typography directly on card */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2 }}
-            >
-              <h3 className="font-display mb-4 text-2xl sm:text-3xl text-slate-800 font-semibold">
-                {`Kính gửi cô ${teacherName},`}
-              </h3>
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h3 className="font-display mb-4 text-2xl sm:text-3xl text-slate-800 font-semibold">
+              {`Kính gửi cô ${teacherName},`}
+            </h3>
 
-              <div className="space-y-4 text-[14.5px] sm:text-[15.5px] leading-relaxed text-slate-700 font-normal">
-                {
-                  <>
-                    <p>
-                      Cảm ơn cô vì đã dạy chúng em nhiều hơn cả kiến thức. Trong
-                      lớp học của cô, mỗi từ mới là một cánh cửa mở ra thế giới,
-                      mỗi lỗi sai là một bài học quý giá, và mỗi bạn học sinh
-                      đều cảm thấy vui vẻ.
+            <div className="space-y-4 text-[14.5px] sm:text-[15.5px] leading-relaxed text-slate-700 font-normal">
+              {letterParagraphs.map((para, idx) => {
+                if (isCompleted || idx < paraIndex) {
+                  return (
+                    <p
+                      key={idx}
+                      className={
+                        idx === letterParagraphs.length - 1
+                          ? 'font-medium text-amber-900'
+                          : ''
+                      }
+                    >
+                      {para}
                     </p>
-                    <p>
-                      Sự kiên nhẫn, vui vẻ và niềm tin của cô vào chúng em đã
-                      giúp chúng em trưởng thành từng ngày. Mai này, dù có quên
-                      một quy tắc ngữ pháp, chúng em vẫn luôn nhớ cô.
-                    </p>
-                    <p className="font-medium text-amber-900">
-                      🌸 Chúc mừng ngày Nhà Giáo Việt Nam 20/11. Chúc cô luôn
-                      mạnh khoẻ, hạnh phúc và mãi rạng rỡ như ánh mặt trời !
-                    </p>
-                  </>
+                  );
                 }
-              </div>
 
-              {/* Sign-off */}
-              <div className="mt-8 text-right pb-3">
-                <p className="text-xs sm:text-sm italic text-slate-600">
-                  {language === 'en'
-                    ? 'With all our gratitude,'
-                    : 'Với tất cả lòng biết ơn,'}
-                </p>
-                <motion.p
-                  className="signature mt-1 text-3xl sm:text-4xl text-amber-700 font-bold"
-                  initial={{ clipPath: 'inset(0 100% 0 0)' }}
-                  animate={{ clipPath: 'inset(0 0% 0 0)' }}
-                  transition={{ delay: 0.25, duration: 1.2 }}
+                if (idx === paraIndex) {
+                  return (
+                    <p
+                      key={idx}
+                      className={
+                        idx === letterParagraphs.length - 1
+                          ? 'font-medium text-amber-900'
+                          : ''
+                      }
+                    >
+                      {para.slice(0, charIndex)}
+                      <span className="typing-cursor font-bold">|</span>
+                    </p>
+                  );
+                }
+
+                return null;
+              })}
+            </div>
+
+            {/* Sign-off */}
+            <AnimatePresence>
+              {isCompleted && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="mt-8 text-right pb-3"
                 >
-                  {'Học sinh của cô 💛'}
-                </motion.p>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                  <p className="text-xs sm:text-sm italic text-slate-600">
+                    Với tất cả lòng biết ơn,
+                  </p>
+                  <motion.p
+                    className="signature mt-1 text-3xl sm:text-4xl text-amber-700 font-bold"
+                    initial={{ clipPath: 'inset(0 100% 0 0)' }}
+                    animate={{ clipPath: 'inset(0 0% 0 0)' }}
+                    transition={{ delay: 0.2, duration: 1.2 }}
+                  >
+                    {'Học sinh của cô 💕'}
+                  </motion.p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </motion.div>
     </motion.div>
@@ -1685,7 +1749,7 @@ function App() {
 
           {/* Subtitle */}
           <p className="font-display mx-auto mt-5 max-w-3xl text-balance text-[clamp(1.2rem,3vw,2.1rem)] italic leading-tight text-slate-600">
-            Kính tặng cô <span className="text-amber-700">{teacherName}</span>
+            Kính gửi cô <span className="text-amber-700">{teacherName}</span>
             <br />
             <span className="text-slate-400 text-[0.85em]">Người đã </span>
             <span className="inline-block min-w-[9ch] text-slate-800 text-[0.85em]">
