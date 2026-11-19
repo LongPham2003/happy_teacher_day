@@ -6,13 +6,8 @@ import {
   Flower2,
   Heart,
   Mail,
-  Music2,
-  Pause,
-  Play,
   Quote,
   Sparkles,
-  Volume2,
-  VolumeX,
   X,
   Star,
   GraduationCap,
@@ -1478,112 +1473,6 @@ function LetterModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-// ── Audio player ───────────────────────────────────────────────────────────
-function AudioPlayer() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [userInteracted, setUserInteracted] = useState(false);
-
-  // Autoplay sau tương tác đầu tiên của người dùng (click/touch bất kỳ đâu)
-  useEffect(() => {
-    const tryAutoplay = async () => {
-      if (!audioRef.current || userInteracted) return;
-      try {
-        await audioRef.current.play();
-        setUserInteracted(true);
-      } catch {
-        // Trình duyệt chặn autoplay — chờ người dùng tương tác
-      }
-    };
-
-    // Thử autoplay ngay
-    tryAutoplay();
-
-    // Lắng nghe tương tác đầu tiên để phát nhạc
-    const handleInteraction = async () => {
-      if (userInteracted || !audioRef.current) return;
-      try {
-        await audioRef.current.play();
-        setUserInteracted(true);
-      } catch {
-        // ignore
-      }
-      window.removeEventListener('click', handleInteraction);
-      window.removeEventListener('touchstart', handleInteraction);
-      window.removeEventListener('keydown', handleInteraction);
-    };
-
-    window.addEventListener('click', handleInteraction);
-    window.addEventListener('touchstart', handleInteraction);
-    window.addEventListener('keydown', handleInteraction);
-
-    return () => {
-      window.removeEventListener('click', handleInteraction);
-      window.removeEventListener('touchstart', handleInteraction);
-      window.removeEventListener('keydown', handleInteraction);
-    };
-  }, [userInteracted]);
-
-  const togglePlay = async () => {
-    if (!audioRef.current) return;
-    if (playing) {
-      audioRef.current.pause();
-    } else {
-      try {
-        await audioRef.current.play();
-        setUserInteracted(true);
-      } catch {
-        setPlaying(false);
-        return;
-      }
-    }
-    setPlaying(!playing);
-  };
-
-  return (
-    <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full border border-amber-200/70 bg-[#fffdf8]/90 p-2 shadow-lg backdrop-blur-md sm:bottom-6 sm:right-6">
-      <audio
-        ref={audioRef}
-        loop
-        muted={muted}
-        onPause={() => setPlaying(false)}
-        onPlay={() => setPlaying(true)}
-        src="/nhac.mp3"
-      />
-      <button
-        onClick={togglePlay}
-        className="relative grid size-10 place-items-center rounded-full bg-gradient-to-br from-amber-500 to-amber-700 text-white transition hover:from-amber-600 hover:to-amber-800"
-        aria-label={playing ? 'Dừng nhạc nền' : 'Phát nhạc nền'}
-      >
-        {playing && (
-          <span className="absolute inset-0 rounded-full bg-amber-400 animate-ping opacity-30" />
-        )}
-        {playing ? (
-          <Pause size={17} fill="currentColor" />
-        ) : (
-          <Play size={17} fill="currentColor" />
-        )}
-      </button>
-      <div className="hidden pr-1 sm:block">
-        <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-700">
-          <Music2 size={11} /> Nhạc nền 🎵
-        </div>
-        <p className="text-xs font-medium text-slate-700">
-          {playing ? 'Đang phát...' : 'Nhấn để phát'}
-        </p>
-      </div>
-      <button
-        onClick={() => setMuted(!muted)}
-        className="grid size-8 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
-        aria-label={muted ? 'Bật âm thanh' : 'Tắt tiếng'}
-      >
-        {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-      </button>
-    </div>
-  );
-}
-
 // ── Stats ribbon ───────────────────────────────────────────────────────────
 function StatsRibbon() {
   const stats = [
@@ -1786,11 +1675,11 @@ function App() {
           </motion.div>
 
           {/* Main heading */}
-          <h1 className="font-display text-balance text-[clamp(2.8rem,7.5vw,6.8rem)] leading-[0.92] tracking-[-0.045em] text-slate-800">
+          <h1 className="font-display text-balance text-[clamp(2rem,5vw,4.5rem)] leading-[0.92] tracking-[-0.045em] text-slate-800">
             Chúc Mừng
             <br />
             <span className="bg-gradient-to-r from-amber-600 via-red-600 to-orange-500 bg-clip-text text-transparent">
-              Ngày Nhà Giáo
+              Ngày Nhà Giáo Việt Nam
             </span>
           </h1>
 
@@ -2059,7 +1948,6 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
-      <AudioPlayer />
     </main>
   );
 }
