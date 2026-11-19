@@ -61,8 +61,15 @@
 }
 
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
-  50%       { opacity: 1;    transform: translate(-50%, -50%) scale(1.06); }
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
 }
 
 /* ── Ferryman / boat scene ──────────────────────────────────── */
@@ -208,16 +215,30 @@
 
 /* ── Petal floating animation ───────────────────────────────── */
 @keyframes petal-float {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-  10%  { opacity: 0.8; }
-  90%  { opacity: 0.6; }
-  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* ── Shimmer for special elements ───────────────────────────── */
 @keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
 }
 
 .shimmer-text {
@@ -238,17 +259,25 @@
 
 /* ── Lantern glow ───────────────────────────────────────────── */
 @keyframes lantern-glow {
-  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 180, 0, 0.6)); }
-  50%       { filter: drop-shadow(0 0 16px rgba(255, 100, 0, 0.9)); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgba(255, 180, 0, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(255, 100, 0, 0.9));
+  }
 }
 
 /* ── Keyframes ──────────────────────────────────────────────── */
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes soft-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       0 14px 35px rgba(217, 119, 6, 0.3),
       0 0 0 0 rgba(217, 119, 6, 0);
@@ -261,18 +290,34 @@
 }
 
 @keyframes water-drift {
-  0%, 100% { transform: translateX(-18px); }
-  50%       { transform: translateX(18px); }
+  0%,
+  100% {
+    transform: translateX(-18px);
+  }
+  50% {
+    transform: translateX(18px);
+  }
 }
 
 @keyframes reed-sway {
-  0%, 100% { transform: skewX(-1deg); }
-  50%       { transform: skewX(2deg); }
+  0%,
+  100% {
+    transform: skewX(-1deg);
+  }
+  50% {
+    transform: skewX(2deg);
+  }
 }
 
 @keyframes float-up {
-  0%   { transform: translateY(0) scale(1); opacity: 0.8; }
-  100% { transform: translateY(-120px) scale(0.6); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120px) scale(0.6);
+    opacity: 0;
+  }
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */

@@ -59,17 +59,17 @@ const vocabulary = [
 
 const photos = [
   {
-    src: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=85',
+    src: 'img1.jpg',
     alt: 'Giáo viên chia sẻ khoảnh khắc ấm áp với học sinh',
-    caption: 'Nơi sự tò mò bắt đầu',
+    caption: 'Một góc nhỏ, ngàn kỷ niệm',
   },
   {
-    src: 'https://images.unsplash.com/photo-1758270704226-db897b180243?auto=format&fit=crop&w=1200&q=85',
+    src: 'img2.jpg',
     alt: 'Học sinh giơ tay phát biểu trong giờ học',
-    caption: 'Mỗi cánh tay, mỗi tiếng nói',
+    caption: 'Người giữ lửa những ước mơ',
   },
   {
-    src: 'https://images.unsplash.com/photo-1578593139939-cccb1e98698c?auto=format&fit=crop&w=1200&q=85',
+    src: 'img3.jpg',
     alt: 'Khung cảnh lớp học vĩnh cửu',
     caption: 'Những bài học chúng em giữ mãi',
   },
